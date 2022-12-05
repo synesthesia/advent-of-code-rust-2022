@@ -5,7 +5,7 @@ pub fn part_one(input: &str) -> Option<i32> {
 
     for elf in elfs {
         let calories = elf
-            .split("\n")
+            .split('\n')
             .map(|item| item.parse::<i32>().unwrap_or(0))
             .reduce(|a, b| a + b);
 
@@ -23,7 +23,7 @@ pub fn part_two(input: &str) -> Option<i32> {
 
     for elf in elfs {
         let calories = elf
-            .split("\n")
+            .split('\n')
             .map(|item| item.parse::<i32>().unwrap_or(0))
             .reduce(|a, b| a + b);
 
