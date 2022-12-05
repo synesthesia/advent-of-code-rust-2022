@@ -1,14 +1,13 @@
 pub fn part_one(input: &str) -> Option<i32> {
-
     let elfs = input.split("\n\n");
 
-    let mut max_calories= Some(0);
+    let mut max_calories = Some(0);
 
     for elf in elfs {
-        let calories =
-            elf.split("\n")
-                .map(|item| item.parse::<i32>().unwrap_or(0))
-                .reduce(|a,b| a+b);
+        let calories = elf
+            .split("\n")
+            .map(|item| item.parse::<i32>().unwrap_or(0))
+            .reduce(|a, b| a + b);
 
         if calories.is_some() && calories > max_calories {
             max_calories = calories;
@@ -18,31 +17,24 @@ pub fn part_one(input: &str) -> Option<i32> {
 }
 
 pub fn part_two(input: &str) -> Option<i32> {
-
-    let mut calories_per_elf:Vec<i32> = vec!();
+    let mut calories_per_elf: Vec<i32> = vec![];
 
     let elfs = input.split("\n\n");
 
-
-    for elf  in elfs {
-
-        let calories =
-            elf.split("\n")
-                .map(|item| item.parse::<i32>().unwrap_or(0))
-                .reduce(|a,b| a+b);
+    for elf in elfs {
+        let calories = elf
+            .split("\n")
+            .map(|item| item.parse::<i32>().unwrap_or(0))
+            .reduce(|a, b| a + b);
 
         if calories.is_some() {
             calories_per_elf.push(calories.unwrap_or(0));
         }
-
-
-
     }
 
     calories_per_elf.sort_by(|a, b| b.cmp(a));
-    let result:i32 = calories_per_elf[0..3].iter().sum();
+    let result: i32 = calories_per_elf[0..3].iter().sum();
     Some(result)
-
 }
 
 fn main() {
