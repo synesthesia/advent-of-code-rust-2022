@@ -21,7 +21,7 @@ jobs:
             - name: cargo test
               run: cargo test
     # uncomment to enable clippy lints
-     clippy:
+    clippy:
          runs-on: ubuntu-latest
          name: Lint (clippy)
          steps:
@@ -29,7 +29,7 @@ jobs:
              - name: cargo clippy
                run: cargo clippy -- -D warnings
     # uncoment to enable format checking
-     fmt:
+    fmt:
          runs-on: ubuntu-latest
          name: Format
          steps:
