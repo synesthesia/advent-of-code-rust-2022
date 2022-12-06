@@ -39,24 +39,7 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    /*
-     *   This time round interpret the map as P1 play | Desired Outcome
-     *   Again, work out total score from following the guide
-     */
-
-    let player1_play = HashMap::from([("A", "r"), ("B", "p"), ("C", "s")]);
-
-    let win_map = HashMap::from([("s", "p"), ("p", "r"), ("r", "s")]);
-
-    let lose_map = HashMap::from([("s", "r"), ("p", "s"), ("r", "p")]);
-
-
-
-    let desired_outcomes = HashMap::from([("X", "l"), ("Y", "d"), ("Z", "w")]);
-
-
-
-    None
+       None
 }
 
 fn main() {
