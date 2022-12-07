@@ -93,10 +93,11 @@ mod tests {
         println!("{_exclaim:?}");
     }
 
+    #[test]
     fn test_item_can_be_copied(){
-        let a = Item::try_from(b'a');
+        let a = Item::try_from(b'a').unwrap();
         a.priority();
-        //a.priority();
+        a.priority();
     }
 
     /*
