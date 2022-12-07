@@ -1,15 +1,15 @@
 
 mod item {
     #[repr(transparent)]
-    #[derive(Copy, Clone)]
+    #[derive(Clone, Copy, PartialEq, Eq, Hash)]
     pub(crate) struct Item(u8);
 
     impl TryFrom<u8> for Item{
-        type Error = String;
+        type Error = color_eyre::Report;
         fn try_from(value: u8) -> Result<Self, Self::Error> {
             match value {
                 b'a'..=b'z' | b'A'..=b'Z' => Ok(Item(value)),
-                _ => Err(format!("{} is not a valid item",value as char)),
+                _ => Err(color_eyre::eyre::eyre!("{} is not a valid item",value as char)),
             }
         }
     }
@@ -35,6 +35,8 @@ mod item {
 pub fn part_one(input: &str) -> Option<u32> {
 
     use item::Item;
+    use std::collections::HashSet;
+    use itertools;
 
     let mut total:u32 = 0;
 
@@ -44,14 +46,14 @@ pub fn part_one(input: &str) -> Option<u32> {
         let first_items = first
             .bytes()
             .map(Item::try_from)
-            .collect::<Result<Vec<_>, _>>();
+            .collect::<Result<HashSet<_>, _>>().ok();
 
-        let second_items = second
-            .bytes()
-            .map(Item::try_from)
-            .collect::<Result<Vec<_>, _>>();
+            itertools::process_results(second.bytes().map(Item::try_from), |mut it| {
+                it.find(|&item| first_items.contains(&item))
+                //    .map(|item| dbg!(item.priority()))
+                //    .ok_or_else(|| color_eyre::eyre::eyre!("compartments have no items in common"))
+            })//?
 
-        println!("- {first_items:?} | {second_items:?}");
 
     }
     if total == 0 {None} else {Some(total)}
