@@ -1,6 +1,5 @@
+use std::collections::HashSet;
 pub fn part_one(input: &str) -> Option<u32> {
-    use std::collections::HashSet;
-
     let mut total: u32 = 0;
 
     for line in input.lines() {
@@ -15,8 +14,8 @@ pub fn part_one(input: &str) -> Option<u32> {
         let duplicate = common[0];
 
         let priority = match duplicate {
-            'a'..='z' => *duplicate as u8 - b'a'  + 1,
-            'A'..='Z' => *duplicate as u8 - b'A'  + 27,
+            'a'..='z' => *duplicate as u8 - b'a' + 1,
+            'A'..='Z' => *duplicate as u8 - b'A' + 27,
             _ => 0,
         } as u32;
 
@@ -29,8 +28,42 @@ pub fn part_one(input: &str) -> Option<u32> {
     }
 }
 
-pub fn part_two(_input: &str) -> Option<u32> {
-    None
+pub fn part_two(input: &str) -> Option<u32> {
+    let mut total: u32 = 0;
+    let mut lines = Vec::new();
+
+    for line in input.lines() {
+        lines.push(line.to_string());
+        if lines.len() == 3 {
+            // bit from here =>
+            let sack1: HashSet<char> = HashSet::from_iter(lines[0].chars());
+            let sack2: HashSet<char> = HashSet::from_iter(lines[1].chars());
+            let sack3: HashSet<char> = HashSet::from_iter(lines[2].chars());
+            let intersect1: HashSet<char> = sack1.intersection(&sack2).copied().collect();
+            let intersect2: HashSet<&char> = sack3.intersection(&intersect1).collect();
+            // => to here was in own function
+            // but I couldn't work out how to return the final HAshSet
+            // without breaking ownership rules
+            intersect2.iter().for_each(|item| total += priority(**item));
+            lines.clear();
+        }
+    }
+    // we assume we have an exact multiple of 3 lines in the collection
+    // possible bug
+    // if not true will need to handle remaining lines
+    if total == 0 {
+        None
+    } else {
+        Some(total)
+    }
+}
+
+fn priority(item: char) -> u32 {
+    match item {
+        'a'..='z' => (item as u8 - b'a' + 1) as u32,
+        'A'..='Z' => (item as u8 - b'A' + 27) as u32,
+        _ => 0,
+    }
 }
 
 fn main() {
@@ -52,6 +85,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let input = advent_of_code::read_file("examples", 3);
-        assert_eq!(part_two(&input), None);
+        assert_eq!(part_two(&input), Some(70));
     }
 }
